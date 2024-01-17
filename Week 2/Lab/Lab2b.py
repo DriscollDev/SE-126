@@ -4,7 +4,7 @@
 import csv
 
 #Format Print
-print(f"Type \tBrand \tCPU \tRAM \tDisk 1 \tNo.HDD \tDisk 2 \tOS \tYR")
+print(f"{'Type':7} \t{'Brand':7} \tCPU \tRAM \tDisk 1 \tNo.HDD \tDisk 2 \tOS \tYR")
 print("----------------------------------------------------------------------------")
 
 #Initializing Variables to store all the data
@@ -26,8 +26,22 @@ with open("Week 2/Lab/lab2b.csv") as csvFile:
         #record adding
         totalRecords += 1
         #data appending to each list
-        types.append(rec[0])
-        brands.append(rec[1])
+        match rec[0]:
+            case 'D':
+                types.append("Desktop")
+            case 'L':
+                types.append("Laptop")
+            case _:
+                types.append("Other")
+        match rec[1]:
+            case 'DL':
+                brands.append("Dell")
+            case 'HP':
+                brands.append("HP")
+            case 'GW':
+                brands.append("Gateway")
+            case _:
+                brands.append("Other")
         cpus.append(rec[2])
         rams.append(rec[3])
         disk1s.append(rec[4])
@@ -48,7 +62,7 @@ with open("Week 2/Lab/lab2b.csv") as csvFile:
 for i in range(totalRecords):
     #print formatting
     print(
-        f"{types[i]} \t{brands[i]} \t{cpus[i]} \t{rams[i]} \t{disk1s[i]} \t  {hdds[i]} \t{disk2s[i]} \t{systems[i]} \t{years[i]}"
+        f"{types[i]:7} \t{brands[i]:7} \t{cpus[i]} \t{rams[i]} \t{disk1s[i]} \t  {hdds[i]} \t{disk2s[i]} \t{systems[i]} \t{years[i]}"
     )
 #Prints out final total computers
 print(f"\nThere are {totalRecords} computers")

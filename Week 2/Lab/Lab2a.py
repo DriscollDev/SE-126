@@ -4,8 +4,8 @@
 import csv
 
 #Format Print
-print(f"{"Room":10} \tMax \tMin \tOver")
-print("--------------------------------------")
+print(f"{"Room":15} \tMax \tMin \tOver")
+print("--------------------------------------------")
 
 #Initializing Variables to store all the data
 totalRecords = 0
@@ -21,8 +21,8 @@ with open("Week 2/Lab/lab2a.csv") as csvFile:
         totalRecords += 1
         #data appending to each list
         rooms.append(rec[0])
-        mins.append(int(rec[1]))
-        maxs.append(int(rec[2]))
+        maxs.append(int(rec[1]))
+        mins.append(int(rec[2]))
 
 #total amount of rooms over cap
 overCount = 0
@@ -35,9 +35,7 @@ for i in range(totalRecords):
         #if so they add to the total
         overCount+=1
         #and print out the info
-        print(f"{rooms[i]:10}\t{maxs[i]}\t{mins[i]}\t{over*-1}")
+        print(f"{rooms[i]:15} \t{maxs[i]} \t{mins[i]} \t{over*-1}")
 #Prints out final total datapoints
 print(f"\n\nProcessed {totalRecords} records")
 print(f"There are {overCount} rooms over the limit")
-    
-

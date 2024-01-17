@@ -1,4 +1,4 @@
-#Conor Driscoll, Lab 2b, 1/16/2024
+#Conor Driscoll, W2D2 Demo, 1/17/2024
 
 #Importing csv handler
 import csv
@@ -31,7 +31,7 @@ with open("Week 2/Demo/w2d2_demoTextFile.txt") as csvFile:
         
 
 
-#iterate through all the computers
+#iterate through all the records
 for i in range(totalRecords):
     #print formatting
     print(

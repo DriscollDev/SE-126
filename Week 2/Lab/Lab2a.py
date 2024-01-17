@@ -4,7 +4,7 @@
 import csv
 
 #Format Print
-print(f"{"Room":15} \tMax \tMin \tOver")
+print(f"{'Room':15} \tMax \tMin \tOver")
 print("--------------------------------------------")
 
 #Initializing Variables to store all the data

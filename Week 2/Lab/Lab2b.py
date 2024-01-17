@@ -5,7 +5,7 @@ import csv
 
 #Format Print
 print(f"{'Type':7} \t{'Brand':7} \tCPU \tRAM \tDisk 1 \tNo.HDD \tDisk 2 \tOS \tYR")
-print("----------------------------------------------------------------------------")
+print("-------------------------------------------------------------------------------------")
 
 #Initializing Variables to store all the data
 totalRecords = 0
@@ -25,13 +25,16 @@ with open("Week 2/Lab/lab2b.csv") as csvFile:
     for rec in data:
         #record adding
         totalRecords += 1
-        #data appending to each list
+        
+        #fancy if-else line
         match rec[0]:
+            #treats each case as a new elif statement comparing rec[0] to the case
             case 'D':
                 types.append("Desktop")
             case 'L':
                 types.append("Laptop")
             case _:
+                #default condition - acts as the else statement at the end of the line
                 types.append("Other")
         match rec[1]:
             case 'DL':
@@ -42,6 +45,7 @@ with open("Week 2/Lab/lab2b.csv") as csvFile:
                 brands.append("Gateway")
             case _:
                 brands.append("Other")
+        #data appending to each list
         cpus.append(rec[2])
         rams.append(rec[3])
         disk1s.append(rec[4])

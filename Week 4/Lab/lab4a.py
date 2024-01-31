@@ -20,6 +20,7 @@ Night's Watch 	 | And now my watch begins.
 House Lannister  | Hear me roar!
 House Targaryen  | Fire & Blood
 '''
+
 import csv
 
 # Initializing Variables to store all the data

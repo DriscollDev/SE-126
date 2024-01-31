@@ -1,0 +1,17 @@
+Eddard,Stark,44,Ned,House Stark
+Benjen,Stark,42,ColdHands,Night's Watch
+Catelyn,Stark,45,Mother,House Tully
+Arya,Stark,16,Girl,House Stark
+Robb,Stark,18,Young Wolf,House Stark
+Sansa,Stark,17,Little Dove,House Stark
+Bran,Stark,15,Raven,House Stark
+Rickon,Stark,14,Serpentine,House Stark
+Jon,Snow,18,Brother,Night's Watch
+Tyrion,Lannister,36,The Imp,House Lannister
+Jaime,Lannister,39,Kingslayer,House Lannister
+Cersei,Lannister,39,The Queen,House Lannister
+Robert,Baratheon,44,The Usurper,House Baratheon
+Stannis,Baratheon,42,The Promised,House Baratheon
+Renly,Baratheon,36,Summer King,House Baratheon
+Daenerys,Targaryen,18,Breaker of Chains,House Targaryen
+Viserys,Targaryen,21,Golden King,House Targaryen

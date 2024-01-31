@@ -14,7 +14,7 @@ systems = []
 years = []
 
 # File handling
-with open("Week 3/Lab/lab3a.csv") as csvFile:
+with open("lab3a.csv") as csvFile:
     data = csv.reader(csvFile)
     for rec in data:
         # record adding
@@ -54,10 +54,12 @@ with open("Week 3/Lab/lab3a.csv") as csvFile:
             systems.append(rec[6])
             years.append(rec[7])
 
+print(f"{'Type':7} \t{'Brand':7} \t{'CPU':3} \t{'RAM':3} \t{'Disk 1':5} \t{'No.HDD':6} \t{'Disk 2':5} \t{'OS':4} \t{'YR'}")
+print("-------------------------------------------------------------------------------------")
 for i in range(totalRecords):
     # print formatting
     print(
-        f"{types[i]:7} \t{brands[i]:7} \t{cpus[i]} \t{rams[i]} \t{disk1s[i]} \t  {hdds[i]} \t{disk2s[i]} \t{systems[i]} \t{years[i]}"
+        f"{types[i]:7} \t{brands[i]:7} \t{cpus[i]:3} \t{rams[i]:3} \t{disk1s[i]:5} \t{hdds[i]:6} \t{disk2s[i]:5} \t{systems[i]:4} \t{years[i]}"
     )
 # Prints out final total computers
 print(f"\nThere are {totalRecords} computers")

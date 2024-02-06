@@ -2,6 +2,29 @@
 import csv
 from os import system, name
 import random
+from time import sleep
+
+"""
+This script is a casino game.
+
+Functions
+- startUp: This function initializes the game and displays the main menu.
+- login: This function is used to log in to the casino.
+- register: This function is used to register a new account.
+- record: This function is used to record the changes made to the user's account.
+- accountInfo: This function is used to display the user's account information.
+- deathscrown: This function is used to play Deaths Crown.
+- blackjack: This function is used to play Blackjack.
+- dice712: This function is used to play Dice 7-12.
+- basicroulette: This function is used to play basic roulette.
+- main: This function is the main function of the game, which controls the flow of the game.
+
+Classes
+- User: This class represents a user in the casino.
+
+Global Variables
+- nameIdPairs: This variable is a dictionary that maps usernames to user IDs.
+"""
 
 
 def clear():
@@ -71,8 +94,12 @@ def login():
         return login()
 
 
-def register(username):
-    clear()
+def register(username: str) -> User:
+    """
+    This function registers a new user with the casino.
+    with a recursive setup to allow for only asking 1 value at a time, and instead of asking for a new username if the password is invalid it should just ask for another password
+    """
+    # If the username is blank or empty, ask for a username
     if username == "":
         ans = input("Enter a username \n>").lower()
         if len(ans) < 3:
@@ -83,6 +110,7 @@ def register(username):
             return register("")
         else:
             return register(ans)
+    # otherwise just ask for a password
     else:
         ids = len(nameIdPairs)
         password = input("Enter your password \n>")
@@ -101,13 +129,18 @@ def register(username):
 
 
 def record(casinoUser):
+    # Updates the csv with current user values
+
+    # Turns the user object back into a list
     userl = [casinoUser.id, casinoUser.name, casinoUser.password, casinoUser.balance, casinoUser.winnings,
              casinoUser.losses, casinoUser.purchases]
+    # Empty list to temporarily hold the data from the csv
     data2 = []
     with open("data.csv", "r", newline="") as csvfile:
         data = csv.reader(csvfile)
         for rec in data:
             data2.append(rec)
+        # Overwrites the user's data with the new values
         data2[casinoUser.id] = userl
     with open("data.csv", "w", newline="") as csvfile:
         csvwriter = csv.writer(csvfile)
@@ -115,6 +148,7 @@ def record(casinoUser):
 
 
 def startUp():
+    # All this is doing is displaying a 1 time menu for logging in, registering or just quitting immediately
     print("\n=============================")
     print("Welcome to the Casino!")
     print("=============================\n")
@@ -135,6 +169,10 @@ def startUp():
 
 
 def accountInfo(casinoUser):
+    """
+    This function displays the user's account information.
+    And allows for purchasing of more balance
+    """
     clear()
     print("\n=============================")
     print(f"Name: {casinoUser.name}")
@@ -156,6 +194,10 @@ def accountInfo(casinoUser):
 
 
 def deathscrown(casinoUser):
+    """
+    This function allows the user to play the game of Deaths Crown
+    The game is played by betting on 1 of 6 values then rolling 3 6 sided dice, winning money equal to the bet for each dice that lands on the value betted on
+    """
     print("\n==========================================================\n")
     print(
         "Welcome to Deaths Crown \n The Rules are simple we will roll 3 special 6 sided dice, with the faces being\n "
@@ -225,6 +267,10 @@ def deathscrown(casinoUser):
 
 
 def blackjack(casinoUser):
+    """
+    This function allows the user to play the game of Dice Blackjack
+    The game is played by getting 2 10 sided dice and rolling them to gain the value of your hand, competing against the dealer. The player then gains the option to roll another dice (hitting) but if the player goes over 21 then they lose. Rolling 1 on the dice will be simultaneously be worth both 1 and 11, allowing the player to roll more if they want
+    """
     print("\n=============================\n")
     print(
         "Welcome to Dice Blackjack \n The rules are simple, you are trying to get the closest to 21 you can without "
@@ -237,6 +283,7 @@ def blackjack(casinoUser):
         if bet > casinoUser.balance:
             print("You don't have enough money to bet that much.")
         else:
+            clear()
             print(f"You have bet ${bet}")
             print("--------------------------------------------------------")
             dealer_cards = [random.randint(1, 10), random.randint(1, 10)]
@@ -283,7 +330,7 @@ def blackjack(casinoUser):
                     if input("Would you like to play again? (y/n):") == "y":
                         blackjack(casinoUser)
                     return casinoUser
-
+                clear()
                 print("--------------------------------------------------------")
                 print(f"Dealer Cards: {dealer_cards[0]}")
                 print(f"Player Cards: {player_cards} \nPlayer Total: {player_total}")
@@ -309,7 +356,7 @@ def blackjack(casinoUser):
             dealertotal = sum(dealer_cards)
 
             while dealertotal < 17:
-
+                clear()
                 print(f"Dealer Cards: {dealer_cards}")
                 print(f"Dealer Total: {dealertotal}")
                 print("Hitting...")
@@ -326,6 +373,7 @@ def blackjack(casinoUser):
                     dealertotal = sum(dealer_cards)
 
                 dealertotal = sum(dealer_cards)
+                sleep(1)
 
             print(f"User Hand is {player_cards} and total is {player_total}")
             print(f"Dealer Hand is {dealer_cards} and total is {dealertotal}")
@@ -347,6 +395,10 @@ def blackjack(casinoUser):
 
 
 def dice712(casinoUser):
+    """
+    This function allows the user to play the game of Dice 7-12
+    The game is player by rolling 2 6 sided dice, if they add to 7 or 12 they win. But if they dont the player can double down to roll 1 more die
+    """
     print("\n=============================\n")
     print(
         "Welcome 7-12 Dice, rules are really simple. You buy in for 50$ and roll 2 dice, if the dice add up to 7 or "
@@ -404,6 +456,7 @@ def dice712(casinoUser):
 
 
 def basicroulette(casinoUser):
+    #Roulette, you play by betting on a value, a color, even/odd, or number ranges. If the randomly chosen value matches the description of the bet the player wins
     type = "none"
     bet = 0
     number = 0
@@ -566,6 +619,7 @@ def basicroulette(casinoUser):
 
 
 def main(casinoUser):
+    #Main menu
     gaming = "y"
     while gaming.lower() == "y":
         clear()

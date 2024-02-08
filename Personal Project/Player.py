@@ -4,11 +4,7 @@ from os import system, name
 import random
 from time import sleep
 
-"""
-Csv per adventure,
-each row is new command
-first value of each row should be an ID to allow linking
-"""
+
 
 def clear():
     system('cls' if name == 'nt' else 'clear')
@@ -91,11 +87,11 @@ def textBlock(commandList):
     #Prints out information and shows player options for their next move
     return None
 
-def combat(commandList):
+def combatBlock(commandList):
     #Plays a combat sequence
     return None
 
-def skillCheck(commandList):
+def skillBlock(commandList):
     #Shows a skill check
     return None
 

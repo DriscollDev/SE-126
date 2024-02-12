@@ -3,7 +3,7 @@ import csv
 from os import system, name
 import random
 from time import sleep
-
+filepath = "data.csv"
 """
 This script is a casino game.
 
@@ -58,7 +58,7 @@ class User:
 def initializer():
     dictionary = {}
     # This function initializes the nameIdPairs dictionary by reading the data from the data.csv file.
-    with open("data.csv") as csvfile:
+    with open(filepath) as csvfile:
         data = csv.reader(csvfile)
         for rec in data:
             # setting the key to the name and the value to the id
@@ -67,7 +67,7 @@ def initializer():
 
 
 def dataFetcher(id):
-    with open("data.csv") as csvfile:
+    with open(filepath) as csvfile:
         data = csv.reader(csvfile)
         for i in range(id):  # count from 0 to the ID
             next(data)  # and discard the rows
@@ -118,7 +118,7 @@ def register(username: str) -> User:
         if password == confirm:
             print(f"Welcome {username}, you get a complimentary $100 to start")
             userl = [ids, username, password, 100, 0, 0, 0]
-            with open("data.csv", "a", newline="") as csvfile:
+            with open(filepath, "a", newline="") as csvfile:
                 # test = ["test", "test", "test", 0, 0, 0, 0]
                 csvwriter = csv.writer(csvfile)
                 csvwriter.writerow(userl)
@@ -136,13 +136,13 @@ def record(casinoUser):
              casinoUser.losses, casinoUser.purchases]
     # Empty list to temporarily hold the data from the csv
     data2 = []
-    with open("data.csv", "r", newline="") as csvfile:
+    with open(filepath, "r", newline="") as csvfile:
         data = csv.reader(csvfile)
         for rec in data:
             data2.append(rec)
         # Overwrites the user's data with the new values
         data2[casinoUser.id] = userl
-    with open("data.csv", "w", newline="") as csvfile:
+    with open(filepath, "w", newline="") as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerows(data2)
 

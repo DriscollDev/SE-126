@@ -3,6 +3,7 @@ import csv
 from os import system, name
 import random
 from time import sleep
+
 filepath = "data.csv"
 """
 This script is a casino game.
@@ -94,7 +95,7 @@ def login():
         return login()
 
 
-def register(username: str) -> User:
+def register(username):
     """
     This function registers a new user with the casino.
     with a recursive setup to allow for only asking 1 value at a time, and instead of asking for a new username if the password is invalid it should just ask for another password
@@ -185,12 +186,16 @@ def accountInfo(casinoUser):
     match input("1: Purchase more balance\n2: Back to menu\n>"):
         case "1":
             clear()
-            money = input("How much would you like to purchase \n>")
+            money = validate("int", "How much would you like to purchase \n>")
             casinoUser.balance += int(money)
             casinoUser.purchases += int(money)
             return casinoUser
         case "2":
             return casinoUser
+        case _:
+            clear()
+            print("Invalid Input")
+            return accountInfo(casinoUser)
 
 
 def validate(type, string, expected=None):
@@ -206,11 +211,11 @@ def validate(type, string, expected=None):
                 return validate(type, string, expected)
         case "list":
             choice = input(string)
-            for val in expected:
-                if val == choice:
-                    return val
-            print("Invalid input")
-            return validate(type, string, expected)
+            if choice in expected:
+                return choice
+            else:
+                print("Invalid input")
+                return validate(type, string, expected)
         case _:
             print("*ERROR* VALIDATE FUNCTION MISPARAMETERED")
 
@@ -240,10 +245,8 @@ def deathscrown(casinoUser):
             print(f"You have bet ${bet}")
             print("--------------------------------------------------------")
             place = int(
-                input(
-                    "What face would you like to bet on? \n 1:Crown \n 2:Skull \n 3:Earth \n 4:Fire \n 5:Water \n "
-                    "6:Air \n 7:Exit\n:"
-                ))
+                validate("list", "What face would you like to bet on? \n 1:Crown \n 2:Skull \n 3:Earth \n 4:Fire "
+                                 "\n 5:Water \n 6:Air \n 7:Exit\n>", ["1", "2", "3", "4", "5", "6", "7"]))
             if place == 7:
                 print("Thanks for playing!")
                 return casinoUser
@@ -274,7 +277,7 @@ def deathscrown(casinoUser):
                     casinoUser.balance += profit
                     casinoUser.winnings += profit
                     print(f"Your current balance is ${casinoUser}")
-                    if input("Would you like to play again? (y/n):") == "y":
+                    if input("Would you like to play again? (y/n):").lower() == "y":
                         return deathscrown(casinoUser)
                     else:
                         return casinoUser
@@ -283,7 +286,7 @@ def deathscrown(casinoUser):
                     casinoUser.balance -= bet
                     casinoUser.losses += bet
                     print(f"Your current balance is ${casinoUser.balance}")
-                    if input("Would you like to play again? (y/n):") == "y":
+                    if input("Would you like to play again? (y/n):").lower() == "y":
                         return deathscrown(casinoUser)
                     else:
                         return casinoUser
@@ -325,7 +328,7 @@ def blackjack(casinoUser):
                         and (dealer_cards[0] == 10 or dealer_cards[1] == 10)):
                     print("Both players have Blackjack, you tie!")
                     print(f"Your current balance is ${casinoUser}")
-                    if input("Would you like to play again? (y/n):") == "y":
+                    if input("Would you like to play again? (y/n):").lower() == "y":
                         return blackjack(casinoUser)
                     else:
                         return casinoUser
@@ -334,7 +337,7 @@ def blackjack(casinoUser):
                     casinoUser.balance += (bet * 1.5)
                     casinoUser.winnings += (bet * 1.5)
                     print(f"Your current balance is ${casinoUser.balance}")
-                    if input("Would you like to play again? (y/n):") == "y":
+                    if input("Would you like to play again? (y/n):").lower == "y":
                         return blackjack(casinoUser)
                     else:
                         return casinoUser
@@ -356,7 +359,7 @@ def blackjack(casinoUser):
                     casinoUser.balance -= bet
                     casinoUser.losses += bet
                     print(f"Your current balance is ${casinoUser.balance}")
-                    if input("Would you like to play again? (y/n):") == "y":
+                    if input("Would you like to play again? (y/n):").lower() == "y":
                         blackjack(casinoUser)
                     return casinoUser
                 clear()
@@ -365,7 +368,7 @@ def blackjack(casinoUser):
                 print(f"Player Cards: {player_cards} \nPlayer Total: {player_total}")
                 print("--------------------------------------------------------")
                 print("What would you like to do? \n 1:Roll \n 2:Stand")
-                choice = int(input("Input your choice: "))
+                choice = int(validate("list", "Input your choice: ", ["1", "2"]))
                 if choice == 1:
                     player_cards.append(random.randint(1, 10))
                 else:
@@ -418,7 +421,7 @@ def blackjack(casinoUser):
                 print("You tied!")
 
     print(f"Your current balance is ${casinoUser.balance}")
-    if input("Would you like to play again? (y/n):") == "y":
+    if input("Would you like to play again? (y/n):").lower() == "y":
         return blackjack(casinoUser)
     return casinoUser
 
@@ -428,7 +431,7 @@ def dice712(casinoUser):
     This function allows the user to play the game of Dice 7-12
     The game is player by rolling 2 6 sided dice, if they add to 7 or 12 they win. But if they dont the player can double down to roll 1 more die
     """
-    if (casinoUser.balance <= 0):
+    if casinoUser.balance <= 0:
         print("You don't have enough balance")
         return casinoUser
     print("\n=============================\n")
@@ -436,7 +439,7 @@ def dice712(casinoUser):
         "Welcome 7-12 Dice, rules are really simple. You buy in for 50$ and roll 2 dice, if the dice add up to 7 or "
         "12 you win. If you want to you can double down your bet to add another die."
     )
-    if input("Ready to play? (y/n): ") == "y":
+    if input("Ready to play? (y/n): ").lower() == "y":
         if casinoUser.balance < 50:
             print("You don't have enough money to play.")
             return casinoUser
@@ -449,12 +452,12 @@ def dice712(casinoUser):
             casinoUser.balance += 50
             casinoUser.winnings += 50
             print(f"Your current balance is ${casinoUser}")
-            if input("Would you like to play again? (y/n): ") == "y":
+            if input("Would you like to play again? (y/n): ").lower() == "y":
                 return dice712(casinoUser)
             else:
                 return casinoUser
         else:
-            if (input("Would you like to double down to roll another die? (y/n)\n: ")
+            if (input("Would you like to double down to roll another die? (y/n)\n: ").lower()
                     == "y"):
                 if casinoUser.balance < 100:
                     print("You do not have enough money to double down.")
@@ -471,7 +474,7 @@ def dice712(casinoUser):
                     casinoUser -= 100
                     casinoUser.losses += 100
                 print(f"Your current balance is ${casinoUser.balance}")
-                if input("Would you like to play again? (y/n): ") == "y":
+                if input("Would you like to play again? (y/n): ").lower() == "y":
                     return dice712(casinoUser)
                 else:
                     return casinoUser
@@ -480,7 +483,7 @@ def dice712(casinoUser):
                 casinoUser.balance -= 50
                 casinoUser.losses += 50
                 print(f"Your current balance is ${casinoUser.balance}")
-                if input("Would you like to play again? (y/n): ") == "y":
+                if input("Would you like to play again? (y/n): ").lower() == "y":
                     return dice712(casinoUser)
                 else:
                     return casinoUser
@@ -488,10 +491,11 @@ def dice712(casinoUser):
 
 
 def basicroulette(casinoUser):
-    if (casinoUser.balance <= 0):
+    if casinoUser.balance <= 0:
         print("You don't have enough balance")
         return casinoUser
-    # Roulette, you play by betting on a value, a color, even/odd, or number ranges. If the randomly chosen value matches the description of the bet the player wins
+    # Roulette, you play by betting on a value, a color, even/odd, or number ranges. If the randomly chosen value
+    # matches the description of the bet the player wins
     type = "none"
     bet = 0
     number = 0
@@ -502,7 +506,8 @@ def basicroulette(casinoUser):
         "bet on these categories \n1:Specific number between 0-36 \n2:Even or odd \n3:Red or black \n4:12 number ranges"
     )
     print("----------------------------------------------------------")
-    match input("Which type of bet would you like to do?: "):
+
+    match validate("list", "Which type of bet would you like to do?: ", ["1", "2", "3", "4"]):
         case '1':
             type = "Number"
             print("You have chosen to bet on a specific number.")
@@ -511,7 +516,7 @@ def basicroulette(casinoUser):
                 print("You don't have enough money to bet that much.")
             else:
                 print(f"You have bet ${bet}")
-                number = int(input("What number would you like to bet on?: "))
+                number = validate("int", "What number would you like to bet on?: ")
                 if number > 36 or number < 0:
                     print("That number is not between 0 and 36")
         case '2':
@@ -522,16 +527,11 @@ def basicroulette(casinoUser):
                 print("You don't have enough money to bet that much.")
             else:
                 print(f"You have bet ${bet}")
-                choice = int(
-                    input(
-                        "Would you like to bet on even or odd?: \n 1:Even \n 2:Odd \n: ")
-                )
-                if choice == 1:
+                choice = validate("list", "Would you like to bet on even or odd?: \n 1:Even \n 2:Odd \n: ", ["1", "2"])
+                if choice == "1":
                     choice = "even"
-                elif choice == 2:
+                elif choice == "2":
                     choice = "odd"
-                else:
-                    print("That is not a valid choice.")
         case '3':
             type = "R/B"
             print("You have chosen to bet on red or black.")
@@ -540,16 +540,11 @@ def basicroulette(casinoUser):
                 print("You don't have enough money to bet that much.")
             else:
                 print(f"You have bet ${bet}")
-                choice = int(
-                    input(
-                        "Would you like to bet on red or black?: \n 1:Red \n 2:Black \n: "
-                    ))
+                choice = validate("list","Would you like to bet on red or black?: \n 1:Red \n 2:Black \n: ",["1","2"])
                 if choice == 1:
                     choice = "red"
                 elif choice == 2:
                     choice = "black"
-                else:
-                    print("That is not a valid choice.")
         case '4':
             type = "Range"
             print("You have chosen to bet on 12 number ranges.")
@@ -558,20 +553,13 @@ def basicroulette(casinoUser):
                 print("You don't have enough money to bet that much.")
             else:
                 print(f"You have bet ${bet}")
-                choice = int(
-                    input(
-                        "Would you like to bet on ranges of numbers?: \n 1:1-12 \n 2:13-24 \n 3:25-36"
-                    ))
+                choice = validate("list","Would you like to bet on ranges of numbers?: \n 1:1-12 \n 2:13-24 \n 3:25-36",["1","2","3"])
                 if choice == 1:
                     choice = "R1"
                 elif choice == 2:
                     choice = "R2"
                 elif choice == 3:
                     choice = "R3"
-                else:
-                    print("That is not a valid choice.")
-        case _:
-            print("That is not a valid choice.")
     print("----------------------------------------------------------")
     print("Spinning the wheel...")
     roll = random.randint(0, 36)
@@ -647,7 +635,7 @@ def basicroulette(casinoUser):
             casinoUser.losses += bet
             print(f"You now have ${casinoUser.balance} dollars.")
 
-    if input("Would you like to play again? (y/n): ") == "y":
+    if input("Would you like to play again? (y/n): ").lower() == "y":
         return basicroulette(casinoUser)
 
     return casinoUser
@@ -666,26 +654,26 @@ def main(casinoUser):
                 print("1: Deaths Crown \n2: Blackjack \n3: Dice 7-12 \n4: Roulette \n5: Back to menu")
                 match input(">"):
                     case "1":
-                        if (casinoUser.balance == 0):
+                        if casinoUser.balance == 0:
                             print("You do not have enough money!")
                             clear()
                         else:
                             clear()
                             casinoUser = deathscrown(casinoUser)
                     case "2":
-                        if (casinoUser.balance == 0):
+                        if casinoUser.balance == 0:
                             print("You do not have enough money!")
                         else:
                             clear()
                             casinoUser = blackjack(casinoUser)
                     case "3":
-                        if (casinoUser.balance == 0):
+                        if casinoUser.balance == 0:
                             print("You do not have enough money!")
                         else:
                             clear()
                             casinoUser = dice712(casinoUser)
                     case "4":
-                        if (casinoUser.balance == 0):
+                        if casinoUser.balance == 0:
                             print("You do not have enough money!")
                         else:
                             clear()

@@ -90,7 +90,7 @@ def login():
         else:
             return login()
     # Raises valueError if the username doesn't exist in database
-    except ValueError:
+    except:
         print("Invalid Username")
         return login()
 
@@ -276,7 +276,7 @@ def deathscrown(casinoUser):
                     print(f"You win ${profit}!")
                     casinoUser.balance += profit
                     casinoUser.winnings += profit
-                    print(f"Your current balance is ${casinoUser}")
+                    print(f"Your current balance is ${casinoUser.balance}")
                     if input("Would you like to play again? (y/n):").lower() == "y":
                         return deathscrown(casinoUser)
                     else:

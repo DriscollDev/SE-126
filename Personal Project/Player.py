@@ -4,7 +4,26 @@ from os import system, name
 import random
 from time import sleep
 
-
+def validate(type, string, expected=None):
+    if expected is None:
+        expected = []
+    match type:
+        case "int":
+            try:
+                val = int(input(string))
+                return val
+            except ValueError:
+                print("Invalid input")
+                return validate(type, string, expected)
+        case "list":
+            choice = input(string)
+            if choice in expected:
+                return choice
+            else:
+                print("Invalid input")
+                return validate(type, string, expected)
+        case _:
+            print("*ERROR* VALIDATE FUNCTION MISPARAMETERED")
 
 def clear():
     system('cls' if name == 'nt' else 'clear')
@@ -83,6 +102,12 @@ class Monster(object):
     mdef = 0
     attacks = []
 
+def save():
+    return None
+
+def load():
+    return None
+
 def textBlock(commandList):
     #Prints out information and shows player options for their next move
     return None
@@ -118,3 +143,6 @@ def characterMaker():
         clasChoice = input(">").lower()
     clear()
     return Character(name,clas)
+
+def main():
+    return None

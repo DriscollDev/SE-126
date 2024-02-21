@@ -14,6 +14,28 @@ ID, Name, Description
 """
 
 
+def validate(vType, string, expected=None):
+    if expected is None:
+        expected = []
+    match vType:
+        case "int":
+            try:
+                val = int(input(string))
+                return val
+            except ValueError:
+                print("Invalid input")
+                return validate(type, string, expected)
+        case "list":
+            choice = input(string)
+            if choice in expected:
+                return choice
+            else:
+                print("Invalid input")
+                return validate(type, string, expected)
+        case _:
+            print("*ERROR* VALIDATE FUNCTION MISPARAMETERED")
+
+
 def clear():
     system('cls' if name == 'nt' else 'clear')
 
@@ -46,8 +68,17 @@ def deleteAdventure(adventure):
     print("")
 
 
+def printAdventures(masterList):
+    print(f"{'  ID':5}\t{'Name':10}\t{'Description'}")
+    for rec in masterList:
+        print(f"{rec[0]:3}\t{rec[1]:10}\t{rec[2]}")
+    input("Press enter to return to main menu: ")
+
+
 def makeTextBlock():
     row = []
+    print("Input the text you want to display to the player, pressing enter will input a new line, so if you with to "
+          "submit the block you need to enter on a blank line")
 
     return row
 
@@ -77,23 +108,27 @@ def main():
                     "\n5: Exit the program"
                     "\n>"):
             case "1":
-                print(f"{'ID'} {'Name'} {'Description'}")
-                for rec in masterList:
-                    print(f"{rec[0]} {rec[1]} {rec[2]}")
-                print(">")
+                clear()
+                printAdventures(masterList)
             case "2":
+                clear()
                 makeAdventure()
             case "3":
+                clear()
                 editAdventure()
             case "4":
+                clear()
                 deleteAdventure()
             case "5":
+                clear()
                 making = False
             case _:
+                clear()
                 print("Invalid input")
+                sleep(0.5)
         clear()
     print("Goodbye")
-    sleep(2)
+    sleep(0.5)
 
 
 main()

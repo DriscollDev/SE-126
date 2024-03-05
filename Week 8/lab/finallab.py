@@ -123,7 +123,14 @@ def purchaseSeats():
     else:
         print("That seat is taken")
         sleep(0.5)
-
+    clear()
+    printSeats()
+    totalCost = 0
+    print(f"{'Seat':4} | {'Cost':5}")
+    for rec in cPurchaseData:
+        totalCost += rec[1]
+        print(f"{rec[0]:4} | ${rec[1]:4.2f}")
+    print(f"Total Cost: ${totalCost:.2f}")
     if input("Would you like to purchase another seat? (y/n)\n>").lower() == "y":
         purchaseSeats()
 

@@ -75,15 +75,12 @@ else:
 
 def bubbleSort(unSortList):
     start = time.time()
-    # iterations = 0
     for i in range(len(unSortList) - 1):
         for j in range(len(unSortList) - i - 1):
             if unSortList[j] > unSortList[j + 1]:
-                # iterations += 1
                 temp = unSortList[j]
                 unSortList[j] = unSortList[j + 1]
                 unSortList[j + 1] = temp
-    # print(f"Sorted in {iterations} swaps")
     end = time.time()
     print(f"Sorted in {end - start} seconds")
     return unSortList
